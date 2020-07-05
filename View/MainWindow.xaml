@@ -1,0 +1,607 @@
+﻿<Controls:MetroWindow x:Class="Levitate.View.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:p="clr-namespace:Levitate.Properties"
+                      xmlns:system="clr-namespace:System;assembly=mscorlib"
+                      xmlns:viewModel="clr-namespace:Levitate.ViewModel"
+                      xmlns:local="clr-namespace:Levitate.View"
+                      xmlns:dd="urn:gong-wpf-dragdrop"
+                      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                      
+                      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      
+                      mc:Ignorable="d"
+                      
+                      Background="{DynamicResource MaterialDesignPaper}"
+                      BorderBrush="{DynamicResource AccentColorBrush}"              
+                      
+                      Title="Levitate"
+                      Height="{Binding Source={x:Static p:Settings.Default}, Path=MainHeight, Mode=TwoWay}"
+                      Width="{Binding Source={x:Static p:Settings.Default}, Path=MainWidth, Mode=TwoWay}"
+                      Icon="pack://application:,,,/Resources/Images/ICON.ico"
+                      MinHeight="600"
+                      MinWidth="800"
+                      WindowStartupLocation="CenterScreen"
+                      SaveWindowPosition="True"
+                      ShowInTaskbar="True"
+                      ShowMaxRestoreButton="True"
+                      ShowMinButton="True"
+                      ShowCloseButton="True"
+                      ShowTitleBar="False"
+                      AllowDrop="True"
+                      DragEnter="listView_View_DragEnter"
+                      Drop="listView_View_Drop">
+
+
+    <!--ADORNER /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <Controls:MetroWindow.Resources>
+        <DataTemplate x:Key="DragAdornerTrack" DataType="{x:Type Track}">
+            <Grid Width="400"
+                              Height="40"
+                              Margin="1"
+                              Background="{StaticResource Accent
+                ColorBrush3}">
+                <StackPanel Margin="10,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical">
+                    <TextBlock Foreground="White" Text="{Binding Title}" />
+                    <TextBlock Foreground="White" Text="{Binding Artist}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DragAdornerPlaylist">
+            <Grid Width="190"
+                              Height="25"
+                              Background="{StaticResource AccentColorBrush2}">
+                <TextBlock Margin="10,0,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Text="{Binding}" />
+            </Grid>
+        </DataTemplate>
+
+        <viewModel:PlayStateToVisibilityConverter x:Key="PlayStateConverver"/>
+        <viewModel:PauseStateToVisibilityConverter x:Key="PauseStateConverver"/>
+        
+    </Controls:MetroWindow.Resources>
+
+
+    <!--DATA CONTEXT ////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <Controls:MetroWindow.DataContext>
+        <viewModel:MainWindowViewModel/>
+    </Controls:MetroWindow.DataContext>
+
+
+    <!--Window Input Binding - SHORTCUT KEYS ////////////////////////////////////////////////////////////////////////////////// -->
+    <Controls:MetroWindow.InputBindings>
+        <KeyBinding Command="{Binding AddFolder}" Key="O" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding NewPlaylist}" Key="N" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding TogglePlayPause}" Key="Return"/>
+        <KeyBinding Command="{Binding PlayBackward}" Key="Left"/>
+        <KeyBinding Command="{Binding PlayForward}" Key="Right"/>
+    </Controls:MetroWindow.InputBindings>
+
+
+
+    <!--GRID ZONE ///////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <Grid Background="Transparent" MouseLeftButtonDown="Grid_MouseLeftButtonDown"
+          RenderOptions.BitmapScalingMode="HighQuality"
+          RenderOptions.CachingHint="Cache"
+          RenderOptions.ClearTypeHint="Enabled">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+
+        <!--Header zone-->
+        <Grid Grid.Row="0" Background="Transparent" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="230*"/>
+                <ColumnDefinition Width="372*"/>
+                <ColumnDefinition Width="230*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Grid Grid.Column="0" Panel.ZIndex="1">
+                <!--Popup box - Main Menu-->
+                <materialDesign:PopupBox Margin="4,8,0,39"
+                                 StaysOpen="True"
+                                 Width="33"
+                                 Grid.Row="0" Grid.Column="0">
+                    <Grid Width="250" Margin="10 10 10 10">
+                        <Grid.Resources>
+                            <Style TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignRadioButton}">
+                                <Setter Property="Margin" Value="12 8 10 8"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <StackPanel Orientation="Vertical">
+                            <Button x:Name="button_AddFiles" Margin="0 0 0 0" Command="{Binding AddFile}" VerticalContentAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                                    <Image Source="pack://application:,,,/Resources/Images/popup_File.png" Height="25" Width="25"
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    <TextBlock Text="{DynamicResource addfile}" Margin="8,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="button_AddFolder"  Margin="0 0 0 0" Command="{Binding AddFolder}" VerticalContentAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                                    <Image Source="pack://application:,,,/Resources/Images/popup_Folder.png" Height="25" Width="25"
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    <TextBlock Text="{DynamicResource addfolder}" Margin="8,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Separator/>
+
+                            <Label x:Name="label_chooseLang" Content="{DynamicResource chooseLang}"  Margin="10,10,10,5"/>
+                            <RadioButton x:Name="radioButton_en" Content="{DynamicResource english}" VerticalContentAlignment="Center" Checked="radioButton_en_Checked"/>
+                            <RadioButton x:Name="radioButton_vn" Content="{DynamicResource vietnamese}" VerticalContentAlignment="Center" Checked="radioButton_vn_Checked"/>
+                            <RadioButton x:Name="radioButton_jp" Content="{DynamicResource japanese}" VerticalContentAlignment="Center" Checked="radioButton_jp_Checked"/>
+
+                            <Separator/>
+
+                            <Button x:Name="button_ClearAll" Margin="0 0 0 0" Command="{Binding CleanUpLibrary}" VerticalContentAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                                    <Image Source="pack://application:,,,/Resources/Images/popup_Clean.png" Height="25" Width="25"
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    <TextBlock Text="{DynamicResource cleanUp}" Margin="8,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Separator/>
+
+                            <Button x:Name="button_About" Margin="0 0 0 0" Command="{Binding OpenAbout}" VerticalContentAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                                    <Image Source="pack://application:,,,/Resources/Images/about.png" Height="25" Width="25"
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    <TextBlock Text="{DynamicResource about}" Margin="8,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:PopupBox>
+
+                <Grid Grid.Column="0" Margin="55,0" Panel.ZIndex="2">
+                    <Button x:Name="button_play" Style="{DynamicResource MaterialDesignFloatingActionButton}" Command="{Binding TogglePlayPause}" Visibility="{Binding MusicManager.State, Converter={StaticResource PlayStateConverver}, UpdateSourceTrigger=Default}"
+                        BorderBrush="Transparent" Background="Transparent" RenderOptions.BitmapScalingMode="HighQuality" Height="48" Margin="44,10,0,0" Width="48" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Image Margin="5 0 0 0" Source="/Levitate;component/Resources/Images/Controls/buttonPlay.png" Height="30"/>
+                    </Button>
+
+                    <Button x:Name="button_pause" Style="{DynamicResource MaterialDesignFloatingActionButton}" Command="{Binding TogglePlayPause}" Visibility="{Binding MusicManager.State, Converter={StaticResource PauseStateConverver}, UpdateSourceTrigger=Default}"
+                        BorderBrush="Transparent" Background="Transparent" RenderOptions.BitmapScalingMode="HighQuality" Height="48" Margin="44,10,0,0" Width="48" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Image Margin="0 0 0 0" Source="/Levitate;component/Resources/Images/Controls/buttonPause.png" Height="30"/>
+                    </Button>
+
+                    <Button x:Name="button_back" Style="{DynamicResource MaterialDesignFloatingActionButton}" Command="{Binding PlayBackward}"
+                        BorderBrush="Transparent" Background="Transparent" RenderOptions.BitmapScalingMode="HighQuality" Height="40" Margin="4,14,0,0" Width="38" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Image Margin="0 0 5 0" Source="/Levitate;component/Resources/Images/Controls/buttonBack.png" Height="25"/>
+                    </Button>
+
+                    <Button x:Name="button_next" Style="{DynamicResource MaterialDesignFloatingActionButton}" Command="{Binding PlayForward}"
+                        BorderBrush="Transparent" Background="Transparent" RenderOptions.BitmapScalingMode="HighQuality" Height="40" Margin="94,14,0,0" Width="38" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Image Margin="5 0 0 0" Source="/Levitate;component/Resources/Images/Controls/buttonNext.png" Height="25"/>
+                    </Button>
+
+                    <Slider x:Name="slider_volume" BorderBrush="Transparent"
+                            Margin="10,64,0,-5" Minimum="0" Maximum="1" Value="{Binding MusicManager.Player.Volume}"
+                            HorizontalAlignment="Left" Width="116" IsMoveToPointEnabled="True"
+                            ToolTip="{DynamicResource ttip_volume}"/>
+
+                </Grid>
+            </Grid>
+
+
+            <Grid Grid.Column="1" Panel.ZIndex="1">
+                <Grid.Background>
+                    <SolidColorBrush Color="#FF0E0E0E" Opacity="0.3"/>
+                </Grid.Background>
+
+                <Image x:Name="header_coverArt"
+                       Source="{Binding MusicManager.CurrentTrackCoverArt, Mode=OneWay}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80"/>
+
+                <Button x:Name="header_button_miniPlayerChanger" Command="{Binding OpenMiniPlayer}"
+                        Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80"
+                        Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Opacity="0">
+                    <Button.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Control.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard >
+                                            <DoubleAnimation Duration="0:0:0.3" To="1" Storyboard.TargetProperty="Opacity"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="Control.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard >
+                                            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="Opacity"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Image Source="/Levitate;component/Resources/Images/miniPlayerChanger.png"/>
+                    
+                </Button>
+
+                <Label x:Name="headerLabel_Title" HorizontalAlignment="Left" Margin="123,5,0,0" VerticalAlignment="Top" AllowDrop="True" Width="236" ToolTip="{Binding MusicManager.CurrentTrack.Title}">
+                    <TextBlock x:Name="headerTextBlock_Title" Foreground="White" TextTrimming="CharacterEllipsis" Text="{Binding MusicManager.CurrentTrack.Title}" FontWeight="SemiBold" FontSize="16">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" BlurRadius="20" Opacity="1.2"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Label>
+
+                <Label x:Name="headerLabel_Album" HorizontalAlignment="Left" Margin="123,31,0,0" VerticalAlignment="Top" AllowDrop="True" Width="236" ToolTip="{Binding MusicManager.CurrentTrack.Album}" Height="29">
+                    <TextBlock x:Name="headertextBlock_Album" Foreground="White" TextTrimming="CharacterEllipsis" Text="{Binding MusicManager.CurrentTrack.Album}" Height="Auto" FontSize="13" FontWeight="Light">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" BlurRadius="20" Opacity="1.2"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Label>
+
+                <ToggleButton Style="{DynamicResource MaterialDesignActionDarkToggleButton}"
+                          Background="Transparent"
+                          Height="35" Width="35"
+                          IsChecked="{Binding MusicManager.IsShuffle, Mode=TwoWay}" Margin="0,4,0,0" VerticalAlignment="Top" HorizontalAlignment="Right">
+                    <ToggleButton.Content>
+                        <Image Source="/Levitate;component/Resources/Images/Controls/shuffle.png" Opacity="0.55" Height="26" Width="26"/>
+                    </ToggleButton.Content>
+                    <materialDesign:ToggleButtonAssist.OnContent>
+                        <Image Source="/Levitate;component/Resources/Images/Controls/shuffle.png" Height="26" Width="26"/>
+                    </materialDesign:ToggleButtonAssist.OnContent>
+                </ToggleButton>
+
+                <ToggleButton Style="{DynamicResource MaterialDesignActionDarkToggleButton}" Command="{Binding SetLoopMode}"
+                          Background="Transparent"
+                          Height="35" Width="35"
+                          IsChecked="{Binding MusicManager.IsLoopOne, Mode=TwoWay}" Margin="83,4,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <ToggleButton.Content>
+                        <Image Source="/Levitate;component/Resources/Images/Controls/loopAll.png" Height="26" Width="26"/>
+                    </ToggleButton.Content>
+                    <materialDesign:ToggleButtonAssist.OnContent>
+                        <Image Source="/Levitate;component/Resources/Images/Controls/loopOne.png" Height="26" Width="26"/>
+                    </materialDesign:ToggleButtonAssist.OnContent>
+                </ToggleButton>
+
+                <Slider x:Name="slider_Timeline"  Margin="80,70,0,-11" Height="21" VerticalAlignment="Top"
+                        ValueChanged="slider_Timeline_ValueChanged"
+                        Background="Transparent"
+                        IsMoveToPointEnabled="True"
+                        Value="{Binding MusicManager.Position, Mode=OneWay}" Maximum="{Binding MusicManager.MaxPosition, Mode=OneWay}"/>
+
+                <TextBlock x:Name="label_position" HorizontalAlignment="Left" IsEnabled="False" Foreground="White"
+                           Margin="85,54,0,0" VerticalAlignment="Top" Width="64" FontSize="11" TextAlignment="Left"
+                           Text="{Binding MusicManager.TimeGone, StringFormat={}{0:mm}:{0:ss}}"/>
+                <TextBlock x:Name="label_remaining" HorizontalAlignment="Right" IsEnabled="False" Foreground="White"
+                       Margin="0,54,5,0" VerticalAlignment="Top" Width="64" FontSize="11" TextAlignment="Right"
+                           Text="{Binding MusicManager.TimeRemain, StringFormat={}{0:mm}:{0:ss}}"/>
+
+
+
+            </Grid>
+
+
+            <!--Backdrop-->
+            <Image x:Name="header_backdrop" Source="{Binding MusicManager.CurrentTrackCoverArt, Mode=OneWay}" Height="233" 
+                   VerticalAlignment="Top" 
+                   Grid.ColumnSpan="3" Opacity="0.65" Margin="-38,-116,-38,-37" 
+                   Stretch="Fill" Panel.ZIndex="0">
+                <Image.Effect>
+                    <BlurEffect Radius="50"/>
+                </Image.Effect>
+            </Image>
+
+            <Grid Grid.Column="2" Height="80" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="29*"/>
+                    <ColumnDefinition Width="189*"/>
+                    <ColumnDefinition Width="29*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="textBox_SearchBox" Margin="35,23,0,27" Text="{Binding MusicManager.SearchText, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"
+                         />
+                <Image x:Name="image" Source="/Levitate;component/Resources/Images/search.png" Height="30" Margin="0,23,0,0" VerticalAlignment="Top"
+                       RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" HorizontalAlignment="Left" Width="30"/>
+            </Grid>
+
+
+        </Grid>
+
+
+
+
+
+        <!--Sidebar-->
+        <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,16,0,0" Height="Auto" VerticalAlignment="Top">
+
+            <Button x:Name="button_RecentlyAdded" HorizontalContentAlignment="Left" Command="{Binding ShowRecentlyAdded}"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Height="45" Width="200"
+                    Grid.Column="0" Grid.Row="1"
+                    ToolTip="{DynamicResource ttip_recentlyAdded}">
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
+                    <Image Source="pack://application:,,,/Resources/Images/listbox_recentlyAdded.png" Height="20" Width="20" Margin="5 0 15 0"/>
+                    <TextBlock Text="{DynamicResource recentlyAdded}" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="lbItem_Songs" HorizontalContentAlignment="Left" Command="{Binding ShowAllSongs}"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Height="45" Width="200"
+                    Grid.Column="0" Grid.Row="1">
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 5" >
+                    <Image Source="pack://application:,,,/Resources/Images/listbox_songs.png" Height="20" Width="20" Margin="5 0 15 0"/>
+                    <TextBlock Text="{DynamicResource songs}" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="lbItem_Favourite" HorizontalContentAlignment="Left" Command="{Binding ShowFavourites}"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Height="45" Width="200"
+                    Grid.Column="0" Grid.Row="1">
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 5" >
+                    <Image Source="pack://application:,,,/Resources/Images/listbox_favourite.png" Height="20" Width="20" Margin="5 0 15 0"/>
+                    <TextBlock Text="{DynamicResource favourite}" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!--Listbox - Playlist zone-->
+        <ListBox x:Name="listBox_sidebar" Grid.Column="0" Grid.Row="1" 
+                         ItemsSource="{Binding MusicManager.Playlists}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                         SelectedItem="{Binding MusicManager.SelectedPlaylist}"
+                         dd:DragDrop.DefaultDragAdornerOpacity="0.8"
+                         dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdornerPlaylist}"
+                         dd:DragDrop.IsDragSource="True"
+                         dd:DragDrop.IsDropTarget="True"
+                         dd:DragDrop.DropHandler="{Binding PlaylistListDropHandler}" Margin="0,156,0,51">
+
+            <!--Input Bindings-->
+            <ListBox.InputBindings>
+                <KeyBinding Command="{Binding RenameSelectedPlaylist}" Key="F2"/>
+                <KeyBinding Command="{Binding DeleteSelectedPlaylists}" Key="Delete" 
+                                    CommandParameter="{Binding ElementName=listBox_sidebar, Path=SelectedItems}"/>
+                <KeyBinding Command="{Binding DeleteAllPlaylists}" Key="Delete" Modifiers="Shift" />
+            </ListBox.InputBindings>
+
+            <!--Listbox ContextMenu-->
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <!--<MenuItem x:Name="lb_contextMenu_GetInfo" Header="{DynamicResource getinfo}" />-->
+                    <MenuItem x:Name="lb_contextMenu_Play" Header="{DynamicResource play}" Command="{Binding PlaySelectedPlaylist}"/>
+                    <Separator/>
+                    <!--<MenuItem x:Name="lb_contextMenu_ExportPL" Header="{DynamicResource exportPL}" />-->
+                    <MenuItem x:Name="lb_contextMenu_Rename" Header="{DynamicResource rename}" Command="{Binding RenameSelectedPlaylist}"/>
+                    <MenuItem x:Name="lb_contextMenu_Delete" Header="{DynamicResource delete}"
+                                      Command="{Binding DeleteSelectedPlaylists}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},
+                                                    Path=PlacementTarget.SelectedItems}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+
+            <!--Listbox Item Template-->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
+                        <Image Source="{Binding Icon}" Height="15" Width="15" Margin="15,0,10,0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <TextBlock Text="{Binding Name}" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="Regular"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!--Popup Box - NewPlaylist -->
+        <materialDesign:PopupBox x:Name="popupBox"
+                                 Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                                 ToolTip="{DynamicResource options}"
+                                 PlacementMode="TopAndAlignCentres"
+                                 Margin="15,0,0,15"
+                                 Grid.Row="1"
+                                 Width="45"
+                                 Height="45"
+                                 VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                                 RenderOptions.BitmapScalingMode="HighQuality">
+            <StackPanel>
+                <Button ToolTip="{DynamicResource createNewPlaylist}" Command="{Binding NewPlaylist}"
+                        Content="{iconPacks:PackIconMaterial PlaylistPlus}"/>
+                <!--<Button ToolTip="{DynamicResource newSmartPlaylist}" Command="{Binding NewSmartPlaylist}"
+                        Content="{iconPacks:PackIconMaterial PlaylistPlay}"/>-->
+                <Button ToolTip="{DynamicResource deleteAllPlaylist}" Command="{Binding DeleteAllPlaylists}"
+                        Content="{iconPacks:PackIconMaterialLight Delete}"/>
+            </StackPanel>
+        </materialDesign:PopupBox>
+
+        <!--Header-->
+        <!--
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Label Margin="10,56,432,0" AllowDrop="True" Height="34" VerticalAlignment="Top">
+                <TextBlock x:Name="textBlock_ItemName" Foreground="Gray" TextTrimming="CharacterEllipsis" Text="{Binding SelectedPlaylist.Name}" FontSize="18" FontWeight="Medium"/>
+            </Label>
+            <Label Margin="265,58,257,0" VerticalAlignment="Top" AllowDrop="True">
+                <TextBlock x:Name="textBlock_ItemDetails" Foreground="Gray" TextTrimming="CharacterEllipsis" Text="{Binding SelectedPlaylist.Details}" FontSize="14" FontWeight="Regular"/>
+            </Label>
+        </Grid>
+        -->
+
+        <!--Listview-->
+        <ListView Background="Transparent"
+                  Visibility="Visible"
+                  x:Name="listView_View"
+                  ItemsSource="{Binding MusicManager.ViewSource}"
+                  SelectedItem="{Binding MusicManager.SelectedTrack}"
+                  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True"
+                  dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdornerTrack}"
+                  dd:DragDrop.DropHandler="{Binding TrackListDropHandler}"
+                  dd:DragDrop.IsDragSource="True"
+                  dd:DragDrop.IsDropTarget="True"
+                  MouseDoubleClick="listView_View_MouseDoubleClick" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1" Margin="0,10,0,0">
+
+            <!--Input Binding-->
+            <ListView.InputBindings>
+                <KeyBinding Command="{Binding GetTrackInfo}"
+                            Key="F2"/>
+                <KeyBinding Command="{Binding PlaySelectedTrack}"
+                            Key="Return"/>
+                <KeyBinding Command="{Binding Copy2Clipboard}"
+                            Key="C" Modifiers="Ctrl"
+                            CommandParameter="{Binding ElementName=listView_View, Path=SelectedItems}"/>
+                <KeyBinding Command="{Binding DeleteSelectedTracks}"
+                            Key="Delete"
+                            CommandParameter="{Binding ElementName=listView_View, Path=SelectedItems}"/>
+            </ListView.InputBindings>
+
+            <!--Styles-->
+            <ListView.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                    <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+                    <Setter Property="MinWidth" Value="{Binding Source={x:Static p:Settings.Default}, Path=col_MinWidth, Mode=OneWay}"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
+
+            <!--Context menu-->
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="listView_contextMenu_GetInfo" Header="{DynamicResource getinfo}" Command="{Binding GetTrackInfo}"/>
+                    <Separator/>
+                    <MenuItem x:Name="listView_contextMenu_Play" Header="{DynamicResource play}" Command="{Binding PlaySelectedTrack}"/>
+                    <Separator/>
+                    <MenuItem x:Name="listView_contextMenu_Copy"
+                              Header="{DynamicResource copy}"
+                              Command="{Binding Copy2Clipboard}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},
+                                    Path=PlacementTarget.SelectedItems}"/>
+                    <MenuItem x:Name="listView_contextMenu_Delete"
+                              Header="{DynamicResource delete}"
+                              Command="{Binding DeleteSelectedTracks}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},
+                                    Path=PlacementTarget.SelectedItems}"
+                              IsEnabled="{Binding MusicManager.SelectedPlaylist.CanEdit}"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource MetroListViewItem}" TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="0 0 0 0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+
+            <!--View with GridView-->
+            <ListView.View>
+                <GridView x:Name="gridview">
+
+                    <!--Playing state-->
+                    <GridViewColumn x:Name="col_PlayingState"
+                                    Width="35">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Height="28" Width="28" Source="{Binding PlayingState, Mode=OneWay, TargetNullValue={x:Null}}"
+                                       RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <!--Title-->
+                    <GridViewColumn x:Name="col_Title"
+                                    Width="{Binding Source={x:Static p:Settings.Default}, Path=col_Title, Mode=OneWay}"
+                                    DisplayMemberBinding="{Binding Title}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Title" Click="ColumnHeader_Click" Content="{DynamicResource title}"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <!--Duration-->
+                    <GridViewColumn x:Name="col_Duration"
+                                    Width="{Binding Source={x:Static p:Settings.Default}, Path=col_Duration, Mode=TwoWay}"
+                                    DisplayMemberBinding="{Binding TrueDuration}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Duration" Click="ColumnHeader_Click" Content="{DynamicResource duration}"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <!--Artist-->
+                    <GridViewColumn x:Name="col_Artist"
+                                    Width="{Binding Source={x:Static p:Settings.Default}, Path=col_Artist, Mode=TwoWay}"
+                                    DisplayMemberBinding="{Binding Artist}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Artist" Click="ColumnHeader_Click" Content="{DynamicResource artist}"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <!--Album-->
+                    <GridViewColumn x:Name="col_Album"
+                                    Width="{Binding Source={x:Static p:Settings.Default}, Path=col_Album, Mode=TwoWay}"
+                                    DisplayMemberBinding="{Binding Album}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Album" Click="ColumnHeader_Click" Content="{DynamicResource album}"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <!--Genre-->
+                    <GridViewColumn x:Name="col_Genre"
+                                    Width="{Binding Source={x:Static p:Settings.Default}, Path=col_Genre, Mode=TwoWay}"
+                                    DisplayMemberBinding="{Binding Genre}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Genre" Click="ColumnHeader_Click" Content="{DynamicResource genre}"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <!--Favourite ToggleButton-->
+                    <GridViewColumn x:Name="col_Favourite"
+                                    Width="{Binding Source={x:Static p:Settings.Default}, Path=col_Favourite, Mode=TwoWay}">
+
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="IsFavourite" Click="ColumnHeader_Click" Content="{iconPacks:PackIconMaterial Heart, Height=14, Width=14}"/>
+                        </GridViewColumn.Header>
+
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ToggleButton Style="{StaticResource MaterialDesignActionToggleButton}"
+                                              Background="Transparent"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Height="18" Width="18"
+                                              IsChecked="{Binding IsFavourite, Mode=TwoWay}"
+                                              Click="ToggleButton_Click">
+                                    <ToggleButton.Content>
+                                        <iconPacks:PackIconMaterial Kind="HeartOutline" Opacity="0.3" Height="14" Width="14" Foreground="LightGray"/>
+                                    </ToggleButton.Content>
+                                    <materialDesign:ToggleButtonAssist.OnContent>
+                                        <iconPacks:PackIconMaterial Kind="Heart" Height="14" Width="14" Foreground="LightGray"/>
+                                    </materialDesign:ToggleButtonAssist.OnContent>
+                                </ToggleButton>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
+
+
+    </Grid>
+</Controls:MetroWindow>

@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <configSections>
+        <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+            <section name="Levitate.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+        </sectionGroup>
+    </configSections>
+    <connectionStrings>
+        <add name="Levitate.Properties.Settings.MusicConnectionString"
+            connectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Music.mdf;Integrated Security=True"
+            providerName="System.Data.SqlClient" />
+    </connectionStrings>
+    <startup> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
+    </startup>
+    <userSettings>
+        <Levitate.Properties.Settings>
+            <setting name="MainHeight" serializeAs="String">
+                <value>700</value>
+            </setting>
+            <setting name="MainWidth" serializeAs="String">
+                <value>900</value>
+            </setting>
+            <setting name="Lang" serializeAs="String">
+                <value>vn</value>
+            </setting>
+            <setting name="col_Title" serializeAs="String">
+                <value>150</value>
+            </setting>
+            <setting name="col_Duration" serializeAs="String">
+                <value>100</value>
+            </setting>
+            <setting name="col_Artist" serializeAs="String">
+                <value>110</value>
+            </setting>
+            <setting name="col_Album" serializeAs="String">
+                <value>150</value>
+            </setting>
+            <setting name="col_Genre" serializeAs="String">
+                <value>100</value>
+            </setting>
+            <setting name="col_Favourite" serializeAs="String">
+                <value>70</value>
+            </setting>
+            <setting name="col_Artwork" serializeAs="String">
+                <value>70</value>
+            </setting>
+            <setting name="col_MinWidth" serializeAs="String">
+                <value>70</value>
+            </setting>
+            <setting name="IsLoopAll" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="IsShuffle" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="volume" serializeAs="String">
+                <value>0.5</value>
+            </setting>
+            <setting name="IsLoopOne" serializeAs="String">
+                <value>False</value>
+            </setting>
+        </Levitate.Properties.Settings>
+    </userSettings>
+</configuration>

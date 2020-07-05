@@ -1,0 +1,48 @@
+﻿<Controls:MetroWindow x:Class="Levitate.View.AboutWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:p="clr-namespace:Levitate.Properties"
+                      xmlns:system="clr-namespace:System;assembly=mscorlib"
+                      xmlns:viewModel="clr-namespace:Levitate.ViewModel"
+                      xmlns:local="clr-namespace:Levitate.View"
+                      
+                      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      
+                      mc:Ignorable="d"
+                      
+                      Background="{DynamicResource MaterialDesignPaper}"
+                      BorderBrush="{DynamicResource AccentColorBrush}"            
+                      
+                      Title="Levitate"
+                      Height="300"
+                      Width="600"
+                      Icon="pack://application:,,,/Resources/Images/ICON.ico"
+                      ResizeMode="NoResize"
+                      WindowStartupLocation="CenterScreen"
+                      SaveWindowPosition="True"
+                      ShowInTaskbar="True"
+                      ShowMaxRestoreButton="False"
+                      ShowMinButton="False"
+                      ShowCloseButton="True"
+                      ShowTitleBar="False"
+                      BorderThickness="0"
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      MouseLeftButtonDown="MetroWindow_MouseLeftButtonDown">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Image x:Name="image" Source="/Levitate;component/Resources/Images/splashScreen.png" RenderOptions.BitmapScalingMode="HighQuality"
+               HorizontalAlignment="Left" Height="155" VerticalAlignment="Top" Width="296" Margin="0,57,0,0"/>
+        <Label x:Name="label" Content="Levitate - Music Player" FontSize="17" FontWeight="Light" Foreground="White"
+               Grid.Column="1" HorizontalAlignment="Left" Margin="0,38,0,0" VerticalAlignment="Top" Width="296" Height="38"/>
+        <Label x:Name="label1" Foreground="White" FontSize="13" FontWeight="Light"
+               Content="Made by WBB Team&#xA;&#xA;Powered by:&#xA;- Material Design XAML Toolkit&#xD;&#xA;- Metro MahApps&#xD;&#xA;- TagLib Sharp&#xD;&#xA;- GongSolution" Grid.Column="1" HorizontalAlignment="Left" Margin="10,96,0,0" VerticalAlignment="Top" Width="276" Height="133"/>
+    </Grid>
+</Controls:MetroWindow>

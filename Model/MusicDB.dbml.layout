@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="MusicDB">
+  <DataContextMoniker Name="/MusicDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="4b18784f-05c4-4589-bde2-292a0d860077" absoluteBounds="0.75, 3.75, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/MusicDBDataContext/ALBUM" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a7f3b53d-987e-4ead-bba1-754a80b3e03a" absoluteBounds="0.765, 4.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d40354fe-e0a0-4ace-abe8-2b6f856e60b0" absoluteBounds="0.75, 1.25, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/MusicDBDataContext/TUA" />
+      <nestedChildShapes>
+        <elementListCompartment Id="46b296dd-7f6e-4740-842f-8e544b3e7241" absoluteBounds="0.765, 1.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="42cfc631-1b3f-4414-8b9d-e4da2e5a28a7" absoluteBounds="3.25, 2.375, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/MusicDBDataContext/BAIHAT" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2c21c426-30cf-43c0-8e54-ac5e94ee5ba1" absoluteBounds="3.265, 2.835, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8534ef24-b1bc-4b1c-b1c2-a9ece97a98c8" absoluteBounds="0.75, 2.5, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/MusicDBDataContext/CASI" />
+      <nestedChildShapes>
+        <elementListCompartment Id="79f18788-72a5-42d0-b322-19434cde79a0" absoluteBounds="0.765, 2.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0da06a54-808c-4814-97a6-1ad7ae36e866" absoluteBounds="5.75, 2.25, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/MusicDBDataContext/CHITIETBAIHAT" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fb98d5f6-bb51-47f9-931b-425c936a2bce" absoluteBounds="5.765, 2.71, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="de4e8a3b-872e-4639-8238-495160f14f42" absoluteBounds="0.75, 5, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/MusicDBDataContext/THELOAI" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7af22d4b-f60e-476e-b048-c6d61f233686" absoluteBounds="0.765, 5.4600000000000009, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 4.14024983723958); (3.25 : 4.14024983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MusicDBDataContext/ALBUM/ALBUM_BAIHAT" />
+      <nodes>
+        <classShapeMoniker Id="4b18784f-05c4-4589-bde2-292a0d860077" />
+        <classShapeMoniker Id="42cfc631-1b3f-4414-8b9d-e4da2e5a28a7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 1.8124995); (4.25 : 1.8124995); (4.25 : 2.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MusicDBDataContext/TUA/TUA_BAIHAT" />
+      <nodes>
+        <classShapeMoniker Id="d40354fe-e0a0-4ace-abe8-2b6f856e60b0" />
+        <classShapeMoniker Id="42cfc631-1b3f-4414-8b9d-e4da2e5a28a7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 3.09699625651042); (3.25 : 3.09699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MusicDBDataContext/CASI/CASI_BAIHAT" />
+      <nodes>
+        <classShapeMoniker Id="8534ef24-b1bc-4b1c-b1c2-a9ece97a98c8" />
+        <classShapeMoniker Id="42cfc631-1b3f-4414-8b9d-e4da2e5a28a7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 2.73599812825521); (3.25 : 2.73599812825521)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MusicDBDataContext/CASI/CASI_BAIHAT1" />
+      <nodes>
+        <classShapeMoniker Id="8534ef24-b1bc-4b1c-b1c2-a9ece97a98c8" />
+        <classShapeMoniker Id="42cfc631-1b3f-4414-8b9d-e4da2e5a28a7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.25 : 3.45274983723958); (5.75 : 3.45274983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MusicDBDataContext/BAIHAT/BAIHAT_CHITIETBAIHAT" />
+      <nodes>
+        <classShapeMoniker Id="42cfc631-1b3f-4414-8b9d-e4da2e5a28a7" />
+        <classShapeMoniker Id="0da06a54-808c-4814-97a6-1ad7ae36e866" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 5.44991122308291); (4.19023344004082 : 5.44991122308291); (4.19023344004082 : 4.53049967447917)]" fixedFrom="Caller" fixedTo="Caller">
+      <AssociationMoniker Name="/MusicDBDataContext/THELOAI/THELOAI_BAIHAT" />
+      <nodes>
+        <classShapeMoniker Id="de4e8a3b-872e-4639-8238-495160f14f42" />
+        <classShapeMoniker Id="42cfc631-1b3f-4414-8b9d-e4da2e5a28a7" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

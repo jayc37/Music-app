@@ -1,0 +1,116 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--TrackInformation WINDOWS-->
+
+    <!--Tabs-->
+    <system:String x:Key="details">Details</system:String>
+    <system:String x:Key="coverArt">Cover Art</system:String>
+    <system:String x:Key="lyrics">Lyrics</system:String>
+    <system:String x:Key="file">File</system:String>
+
+    <!--Labels-->
+    <system:String x:Key="title">title</system:String>
+    <system:String x:Key="artist">artist</system:String>
+    <system:String x:Key="albumArtist">album artist</system:String>
+    <system:String x:Key="album">album</system:String>
+    <system:String x:Key="composer">composer</system:String>
+    <system:String x:Key="genre">genre</system:String>
+    <system:String x:Key="year">release year</system:String>
+    <system:String x:Key="trackNo">track number</system:String>
+    <system:String x:Key="playCount">play count</system:String>
+    <system:String x:Key="lastPlay">last play</system:String>
+    <system:String x:Key="kind">kind</system:String>
+    <system:String x:Key="duration">duration</system:String>
+    <system:String x:Key="bitRate">bit rate</system:String>
+    <system:String x:Key="sampleRate">sample rate</system:String>
+    <system:String x:Key="channels">channels</system:String>
+    <system:String x:Key="dateAdded">date added</system:String>
+    <system:String x:Key="location">location</system:String>
+    <system:String x:Key="copyright">copy right</system:String>
+
+    <!--Label checkbox-->
+    <system:String x:Key="lb_editable">You can edit information</system:String>
+    <system:String x:Key="lb_uneditable">You cannot edit information</system:String>
+
+    <!--Tooltip-->
+    <system:String x:Key="ttip_editMode">Click here to turn on/off Editable mode</system:String>
+    <system:String x:Key="newSmartPlaylist">New Smart-Playlist</system:String>
+    <system:String x:Key="deleteAllPlaylist">Delete all playlists</system:String>
+    <system:String x:Key="options">More options</system:String>
+    <system:String x:Key="openExplorer">Double click to open in Windows Explorer</system:String>
+    <system:String x:Key="ttip_recentlyAdded">50 recently added songs</system:String>
+    <system:String x:Key="ttip_volume">Volume level</system:String>
+
+    <!--Side bar-->
+    <system:String x:Key="recentlyAdded">Recently Added</system:String>
+    <system:String x:Key="albums">Albums</system:String>
+    <system:String x:Key="artists">Artists</system:String>
+    <system:String x:Key="songs">Songs</system:String>
+    <system:String x:Key="genres">Genres</system:String>
+    <system:String x:Key="favourite">Favourites</system:String>
+
+    <!--MAIN WINDOW-->
+
+    <system:String x:Key="playlists">Playlists</system:String>
+    <system:String x:Key="setting">Setting</system:String>
+    <system:String x:Key="addfile">Add File to Library</system:String>
+    <system:String x:Key="addfolder">Add folder to Library</system:String>
+    <system:String x:Key="cleanUp">Clean up Library</system:String>
+    <system:String x:Key="chooseLang">Choose language</system:String>
+    <system:String x:Key="english">English</system:String>
+    <system:String x:Key="vietnamese">Vietnamese</system:String>
+    <system:String x:Key="japanese">Japansese</system:String>
+    <system:String x:Key="backUp">Backup library</system:String>
+    <system:String x:Key="restore">Restore library</system:String>
+    <system:String x:Key="about">About Levitate</system:String>
+
+    <!--Context Menus-->
+    <system:String x:Key="getinfo">Get info</system:String>
+    <system:String x:Key="play">Play</system:String>
+    <system:String x:Key="delete">Delete</system:String>
+    <system:String x:Key="copy">Copy</system:String>
+    <system:String x:Key="rename">Rename</system:String>
+    <system:String x:Key="exportPL">Export playlist...</system:String>
+
+    <!--User controls-->
+    <system:String x:Key="totalDuration">Total duration</system:String>
+    
+    <!--In code behind-->
+    <system:String x:Key="newPlaylist">New Playlist</system:String>
+    <system:String x:Key="playlistName">Playlist name</system:String>
+    <system:String x:Key="createNewPlaylist">Create new playlist</system:String>
+    <system:String x:Key="renamePlaylist">Rename playlist</system:String>
+    <system:String x:Key="newName">New name</system:String>
+    
+    
+    <system:String x:Key="attention">Attention</system:String>
+    <system:String x:Key="doYouWantToExit">Do you want to leave? Leaving this will discard unsaved changes.</system:String>
+    <system:String x:Key="doYouWantToClearAll">Do you want to clean up Library and Playlists?</system:String>
+    <system:String x:Key="doYouWantToDeletePlaylists">Do you want to remove all Playlists?</system:String>
+    <system:String x:Key="doYouWantToDeleteSelectedPlaylists">Do you want to remove Playlist(s)?</system:String>
+    <system:String x:Key="trackDoesNotExist.Deletet?">This track does not exist, do you want to delete it from Library?</system:String>
+    <system:String x:Key="pleaseWait">Please wait</system:String>
+    <system:String x:Key="trackProcessing">Adding files to Library...</system:String>
+    <system:String x:Key="deleting">Deleting...</system:String>
+
+    <system:String x:Key="days">days</system:String>
+    <system:String x:Key="day">day</system:String>
+    <system:String x:Key="hours">hours</system:String>
+    <system:String x:Key="hour">hour</system:String>
+    <system:String x:Key="minutes">minutes</system:String>
+    
+    <system:String x:Key="emptyplaylist">This playlist is currently empty</system:String>
+    <system:String x:Key="song">song</system:String>
+    <system:String x:Key="songs2">songs</system:String>
+
+    <system:String x:Key="ok">OK</system:String>
+    <system:String x:Key="yes">YES</system:String>
+    <system:String x:Key="close">CLOSE</system:String>
+    <system:String x:Key="cancel">CANCEL</system:String>
+
+    <!--Intro slides-->
+    <system:String x:Key="slide1">Welcome to FlashLight Music Manager. Take the music note below for instructions</system:String>
+
+</ResourceDictionary>

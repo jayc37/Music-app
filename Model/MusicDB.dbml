@@ -1,0 +1,62 @@
+﻿ <?xml version="1.0" encoding="utf-8"?><Database Name="Music" Class="MusicDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Music.mdf;Integrated Security=True" SettingsObjectName="Levitate.Properties.Settings" SettingsPropertyName="MusicConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.ALBUMS" Member="ALBUMs">
+    <Type Name="ALBUM">
+      <Column Name="Ma_Album" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ten_Album" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="ALBUM_BAIHAT" Member="BAIHATs" ThisKey="Ma_Album" OtherKey="Ma_Album" Type="BAIHAT" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TUA" Member="TUAs">
+    <Type Name="TUA">
+      <Column Name="Ma_Tua" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ten_Tua" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="TUA_BAIHAT" Member="BAIHATs" ThisKey="Ma_Tua" OtherKey="Ma_Tua" Type="BAIHAT" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BAIHAT" Member="BAIHATs">
+    <Type Name="BAIHAT">
+      <Column Name="Ma_BaiHat" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ma_Tua" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ma_CaSi" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ma_Album" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ma_TheLoai" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ma_CaSiAlbum" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DuongDan" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="BAIHAT_CHITIETBAIHAT" Member="CHITIETBAIHAT" ThisKey="Ma_BaiHat" OtherKey="Ma_BaiHat" Type="CHITIETBAIHAT" Cardinality="One" />
+      <Association Name="ALBUM_BAIHAT" Member="ALBUM" ThisKey="Ma_Album" OtherKey="Ma_Album" Type="ALBUM" IsForeignKey="true" />
+      <Association Name="TUA_BAIHAT" Member="TUA" ThisKey="Ma_Tua" OtherKey="Ma_Tua" Type="TUA" IsForeignKey="true" />
+      <Association Name="CASI_BAIHAT" Member="CASI" ThisKey="Ma_CaSi" OtherKey="Ma_CaSi" Type="CASI" IsForeignKey="true" />
+      <Association Name="CASI_BAIHAT1" Member="CASI1" ThisKey="Ma_CaSiAlbum" OtherKey="Ma_CaSi" Type="CASI" IsForeignKey="true" />
+      <Association Name="THELOAI_BAIHAT" Member="THELOAI" ThisKey="Ma_TheLoai" OtherKey="Ma_TheLoai" Type="THELOAI" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CASI" Member="CASIs">
+    <Type Name="CASI">
+      <Column Name="Ma_CaSi" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ten_CaSi" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="CASI_BAIHAT" Member="BAIHATs" ThisKey="Ma_CaSi" OtherKey="Ma_CaSi" Type="BAIHAT" />
+      <Association Name="CASI_BAIHAT1" Member="BAIHATs1" ThisKey="Ma_CaSi" OtherKey="Ma_CaSiAlbum" Type="BAIHAT" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CHITIETBAIHAT" Member="CHITIETBAIHATs">
+    <Type Name="CHITIETBAIHAT">
+      <Column Name="Ma_BaiHat" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ThoiLuong" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="Rating" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SoLanNghe" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CoAnhBia" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NgayThemVaoCSDL" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LanNgheCuoi" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NamPhatHanh" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Association Name="BAIHAT_CHITIETBAIHAT" Member="BAIHAT" ThisKey="Ma_BaiHat" OtherKey="Ma_BaiHat" Type="BAIHAT" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.THELOAI" Member="THELOAIs">
+    <Type Name="THELOAI">
+      <Column Name="Ma_TheLoai" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ten_TheLoai" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="THELOAI_BAIHAT" Member="BAIHATs" ThisKey="Ma_TheLoai" OtherKey="Ma_TheLoai" Type="BAIHAT" />
+    </Type>
+  </Table>
+</Database>
